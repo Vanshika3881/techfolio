@@ -56,19 +56,19 @@ export default function PortfolioPreview() {
   const handleShare = async () => {
     const shareUrl = `${window.location.origin}/preview/${uid}`;
     if (navigator.share) {
-      try {
-        await navigator.share({
-  title: `${portfolio.name}&apos;s Portfolio`,
-  url: shareUrl,
-});
+  try {
+    await navigator.share({
+      title: `${portfolio.name}'s Portfolio`, // ✅ this works fine
+      url: shareUrl,
+    });
+  } catch (err) {
+    console.error("Error sharing:", err);
+  }
+} else {
+  navigator.clipboard.writeText(shareUrl);
+  alert("Portfolio link copied to clipboard!");
+}
 
-      } catch (err) {
-        console.error("Error sharing:", err);
-      }
-    } else {
-      navigator.clipboard.writeText(shareUrl);
-      alert("Portfolio link copied to clipboard!");
-    }
   };
 
 
