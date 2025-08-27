@@ -58,9 +58,10 @@ export default function PortfolioPreview() {
     if (navigator.share) {
   try {
     await navigator.share({
-      title: `${portfolio.name}'s Portfolio`, // ✅ this works fine
-      url: shareUrl,
-    });
+  title: `${portfolio.name}&apos;s Portfolio`, // ✅ safe for Next.js build
+  url: shareUrl,
+});
+
   } catch (err) {
     console.error("Error sharing:", err);
   }
