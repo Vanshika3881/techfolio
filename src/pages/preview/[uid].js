@@ -4,6 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { FaLinkedin, FaGithub, FaEnvelope, FaShareAlt } from "react-icons/fa";
 import { getAuth } from "firebase/auth";
+import Image from "next/image";
 
 export default function PortfolioPreview() {
   const router = useRouter();
@@ -116,8 +117,9 @@ export default function PortfolioPreview() {
         <div className="home-content">
           <div className="text">
             <p className="intro-text fade-in" style={{ animationDelay: "0.3s" }}>
-              Hello, It&apos;s Me
-            </p>
+  {"Hello, It's Me"}
+</p>
+
             <h1 className="main-name fade-in" style={{ animationDelay: "0.6s" }}>
               {portfolio.name || "Your Name"}
             </h1>
@@ -140,7 +142,13 @@ export default function PortfolioPreview() {
           </div>
           {portfolio.profilePicture && (
             <div className="image-container">
-              <img src={portfolio.profilePicture} alt={`${portfolio.name} Profile`} />
+             <Image
+  src={portfolio.profilePicture}
+  alt={`${portfolio.name} Profile`}
+  width={300}   // set your preferred size
+  height={300}
+  priority={false}
+/>
               <div className="image-glow"></div>
             </div>
           )}
