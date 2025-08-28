@@ -109,52 +109,53 @@ export default function PortfolioPreview() {
   </div>
 </nav>
 
+     {/* HOME */}
+<section className="section home" id="home">
+  <div className="home-content">
+    <div className="text">
+      <p className="intro-text fade-in" style={{ animationDelay: "0.3s" }}>
+        {"Hello, It's Me"}
+      </p>
 
+      <h1 className="main-name fade-in" style={{ animationDelay: "0.6s" }}>
+        {portfolio.name || "Your Name"}
+      </h1>
 
+      <h2 className="animated-title fade-in" style={{ animationDelay: "0.9s" }}>
+        {portfolio.titles?.[titleIndex] || "Your Title"}
+      </h2>
 
-      {/* HOME */}
-      <section className="section home" id="home">
-        <div className="home-content">
-          <div className="text">
-            <p className="intro-text fade-in" style={{ animationDelay: "0.3s" }}>
-  {"Hello, It's Me"}
+      <p className="tagline fade-in" style={{ animationDelay: "1.2s" }}>
+        Crafting modern, sleek websites & digital experiences.
+      </p>
 
-</p>
+      <div className="button-wrapper fade-in" style={{ animationDelay: "1.5s" }}>
+        <button
+          className="cta-button"
+          onClick={() => {
+            document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+          }}
+        >
+          View My Work
+        </button>
+      </div>
+    </div>
 
-            <h1 className="main-name fade-in" style={{ animationDelay: "0.6s" }}>
-              {portfolio.name || "Your Name"}
-            </h1>
-            <h2 className="animated-title fade-in" style={{ animationDelay: "0.9s" }}>
-              {portfolio.titles?.[titleIndex] || "Your Title"}
-            </h2>
-            <p className="tagline fade-in" style={{ animationDelay: "1.2s" }}>
-              Crafting modern, sleek websites & digital experiences.
-            </p>
-            <div className="button-wrapper fade-in" style={{ animationDelay: "1.5s" }}>
-              <button
-                className="cta-button"
-                onClick={() => {
-                  document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                View My Work
-              </button>
-            </div>
-          </div>
-          {portfolio.profilePicture && (
-            <div className="image-container">
-             <Image
-  src={portfolio.profilePicture}
-  alt={`${portfolio.name} Profile`}
-  width={300}   // set your preferred size
-  height={300}
-  priority={false}
-/>
-              <div className="image-glow"></div>
-            </div>
-          )}
-        </div>
-      </section>
+    {portfolio.profilePicture && (
+      <div className="image-container">
+        <Image
+          src={portfolio.profilePicture}
+          alt={`${portfolio.name} Profile`}
+          width={300}
+          height={300}
+          priority={false}
+        />
+        <div className="image-glow"></div>
+      </div>
+    )}
+  </div>
+</section>
+
 
       
 
