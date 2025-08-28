@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { FaLinkedin, FaGithub, FaEnvelope, FaShareAlt } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaEnvelope, FaShareAlt,FaEdit } from "react-icons/fa";
 import { getAuth } from "firebase/auth";
 import Image from "next/image";
 
@@ -76,38 +76,42 @@ export default function PortfolioPreview() {
 
   return (
    <div className="scroll-container">
-      {/* NAVBAR */}
-      <nav className="navbar flex items-center px-6 py-4 bg-[#1e293b]">
-  {/* Left section */}
-  <h1 className="logo text-2xl font-bold text-[#0ef] mr-8">Portfolio</h1>
+     {/* NAVBAR */}
+<nav className="navbar flex items-center justify-between px-6 py-5 bg-[#1e293b]">
+      {/* Logo */}
+      <h1 className="logo text-3xl font-bold text-[#0ef]">Portfolio</h1>
 
-  {/* Nav links */}
-  <ul className="nav-links flex gap-6 text-white font-semibold mr-auto">
-    <li><a href="#home">Home</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+      {/* Nav links - Center */}
+      <ul className="nav-links flex gap-8 text-white font-semibold text-lg">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
 
-  {/* Right buttons */}
-  <div className="flex gap-3">
-    <button
-      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0ef] text-black font-semibold shadow-md hover:scale-105 transition-transform"
-      onClick={() => {
-        navigator.clipboard.writeText(window.location.href);
-        alert("Portfolio link copied to clipboard!");
-      }}
-    >
-      <span>🔗</span> Share
-    </button>
-    <button
-      className="px-4 py-2 rounded-lg bg-[#0ef] text-black font-semibold shadow-md hover:scale-105 transition-transform"
-      onClick={() => router.push(`/dashboard?uid=${uid}`)}
-    >
-      Edit Portfolio
-    </button>
-  </div>
-</nav>
+      {/* Right buttons */}
+      <div className="flex gap-4">
+        {/* Share button */}
+        <button
+          className="flex items-center gap-2 px-5 py-3 rounded-lg bg-[#0ef] text-black font-semibold text-lg shadow-md hover:scale-105 transition-transform"
+          onClick={() => {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Portfolio link copied to clipboard!");
+          }}
+        >
+          <FaShareAlt className="text-xl" /> Share
+        </button>
+
+        {/* Edit Portfolio button */}
+        <button
+          className="flex items-center gap-2 px-5 py-3 rounded-lg bg-[#0ef] text-black font-semibold text-lg shadow-md hover:scale-105 transition-transform"
+          onClick={() => router.push(`/dashboard?uid=${uid}`)}
+        >
+          <FaEdit className="text-xl" /> Edit Portfolio
+        </button>
+      </div>
+    </nav>
+
 
      {/* HOME */}
 <section className="section home" id="home">
@@ -156,32 +160,6 @@ export default function PortfolioPreview() {
   </div>
 </section>
 
-
-      
-
-{/* SHARE BUTTON */}
-      <div
-        style={{
-          position: "fixed",
-          top: 20,
-          right: 200,
-          zIndex: 1000,
-          backgroundColor: "#0ef",
-          padding: "10px 20px",
-          borderRadius: "8px",
-          fontWeight: "bold",
-          fontSize: "15px",
-          color: "#000",
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.2)"
-        }}
-        onClick={handleShare}
-      >
-        <FaShareAlt /> Share
-      </div>
 
       {/* ABOUT + SKILLS */}
       <section className="section about-full" id="about">
