@@ -116,7 +116,7 @@ export default function PortfolioPreview() {
         <div className="home-content">
           <div className="text">
             <p className="intro-text fade-in" style={{ animationDelay: "0.3s" }}>
-              Hello, It's Me
+              Hello, It&apos;s Me
             </p>
             <h1 className="main-name fade-in" style={{ animationDelay: "0.6s" }}>
               {portfolio.name || "Your Name"}
