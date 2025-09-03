@@ -150,7 +150,7 @@ export default function Dashboard() {
       {[1, 2, 3, 4].map((s) => (
         <div
           key={s}
-          className={`w-10 h-10 rounded-full mx-3 flex items-center justify-center text-white font-bold text-lg cursor-pointer
+          className={`w-10 h-10 rounded-full mx-2 flex items-center justify-center text-white font-bold text-lg cursor-pointer
             ${step === s ? 'bg-cyan-400 shadow-[0_0_15px_rgba(0,255,255,0.8)] animate-pulse' : 'bg-gray-600 hover:bg-gray-500 transition'}`}
           onClick={() => setStep(s)}
         >
@@ -165,28 +165,28 @@ export default function Dashboard() {
       case 1:
         return (
           <>
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent mb-6">
               Profile Info
             </h2>
             {portfolio.profilePicture && (
               <img
                 src={portfolio.profilePicture}
                 alt="Profile"
-                className="h-32 w-32 rounded-full object-cover mb-4 mx-auto border-4 border-cyan-400 shadow-[0_0_20px_rgba(0,255,255,0.7)]"
+                className="h-24 w-24 sm:h-32 sm:w-32 rounded-full object-cover mb-4 mx-auto border-4 border-cyan-400 shadow-[0_0_20px_rgba(0,255,255,0.7)]"
               />
             )}
             <input type="file" accept="image/*" onChange={handleProfileImage} className="mb-6 w-full" />
             <input
               type="text"
               placeholder="Your Name"
-              className="w-full mb-6 p-4 border border-gray-700 rounded bg-[#0f172a] text-white text-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
+              className="w-full mb-6 p-3 sm:p-4 border border-gray-700 rounded bg-[#0f172a] text-white text-lg sm:text-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
               value={portfolio.name}
               onChange={(e) => setPortfolio({ ...portfolio, name: e.target.value })}
             />
             <input
               type="text"
               placeholder="Titles (e.g. Web Developer, Designer)"
-              className="w-full p-4 border border-gray-700 rounded bg-[#0f172a] text-white text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
+              className="w-full p-3 sm:p-4 border border-gray-700 rounded bg-[#0f172a] text-white text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
               value={titleInput}
               onChange={(e) => setTitleInput(e.target.value)}
             />
@@ -195,22 +195,22 @@ export default function Dashboard() {
       case 2:
         return (
           <>
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent mb-6">
               📝 About & Skills
             </h2>
             <textarea
               rows={5}
               placeholder="Bio"
-              className="w-full mb-6 p-4 border border-gray-700 rounded bg-[#0f172a] text-white text-lg resize-none focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
+              className="w-full mb-6 p-3 sm:p-4 border border-gray-700 rounded bg-[#0f172a] text-white text-base sm:text-lg resize-none focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
               value={portfolio.bio}
               onChange={(e) => setPortfolio({ ...portfolio, bio: e.target.value })}
             />
-            <div className="flex gap-3 mb-4">
+            <div className="flex flex-col sm:flex-row gap-3 mb-4">
               <input
                 type="text"
                 value={newSkill}
                 onChange={(e) => setNewSkill(e.target.value)}
-                className="flex-1 p-4 border border-gray-700 rounded bg-[#0f172a] text-white text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
+                className="flex-1 p-3 sm:p-4 border border-gray-700 rounded bg-[#0f172a] text-white text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
                 placeholder="Add a skill"
                 onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill())}
               />
@@ -242,7 +242,7 @@ export default function Dashboard() {
       case 3:
         return (
           <>
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent mb-6">
               📂 Projects
             </h2>
             {portfolio.projects.map((project, idx) => (
@@ -250,9 +250,9 @@ export default function Dashboard() {
                 key={idx}
                 className="border border-gray-700 p-4 mb-4 rounded bg-[#0f172a] text-white shadow-md"
               >
-                <h3 className="font-semibold text-xl">{project.title}</h3>
-                <p className="text-sm mb-2">{project.description}</p>
-                <a href={project.link} className="text-cyan-400 underline" target="_blank" rel="noreferrer">
+                <h3 className="font-semibold text-lg sm:text-xl break-words">{project.title}</h3>
+                <p className="text-sm mb-2 break-words">{project.description}</p>
+                <a href={project.link} className="text-cyan-400 underline break-words" target="_blank" rel="noreferrer">
                   {project.link}
                 </a>
                 <button
@@ -268,13 +268,13 @@ export default function Dashboard() {
               placeholder="Title"
               value={newProject.title}
               onChange={(e) => setNewProject({ ...newProject, title: e.target.value })}
-              className="w-full mb-3 p-4 border border-gray-700 rounded bg-[#0f172a] text-white text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
+              className="w-full mb-3 p-3 sm:p-4 border border-gray-700 rounded bg-[#0f172a] text-white text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
             />
             <textarea
               placeholder="Description"
               value={newProject.description}
               onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
-              className="w-full mb-3 p-4 border border-gray-700 rounded bg-[#0f172a] text-white text-lg resize-none focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
+              className="w-full mb-3 p-3 sm:p-4 border border-gray-700 rounded bg-[#0f172a] text-white text-base sm:text-lg resize-none focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
               rows={3}
             />
             <input
@@ -282,7 +282,7 @@ export default function Dashboard() {
               placeholder="Project Link"
               value={newProject.link}
               onChange={(e) => setNewProject({ ...newProject, link: e.target.value })}
-              className="w-full mb-4 p-4 border border-gray-700 rounded bg-[#0f172a] text-white text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
+              className="w-full mb-4 p-3 sm:p-4 border border-gray-700 rounded bg-[#0f172a] text-white text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
             />
             <button
               onClick={addProject}
@@ -295,13 +295,13 @@ export default function Dashboard() {
       case 4:
         return (
           <>
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent mb-6">
               🔗 Social Links & Publish
             </h2>
             <input
               type="url"
               placeholder="LinkedIn"
-              className="w-full p-4 mb-6 border border-gray-700 rounded bg-[#0f172a] text-white text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
+              className="w-full p-3 sm:p-4 mb-6 border border-gray-700 rounded bg-[#0f172a] text-white text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
               value={portfolio.socials.linkedin}
               onChange={(e) =>
                 setPortfolio((prev) => ({
@@ -313,7 +313,7 @@ export default function Dashboard() {
             <input
               type="url"
               placeholder="GitHub"
-              className="w-full p-4 mb-6 border border-gray-700 rounded bg-[#0f172a] text-white text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
+              className="w-full p-3 sm:p-4 mb-6 border border-gray-700 rounded bg-[#0f172a] text-white text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
               value={portfolio.socials.github}
               onChange={(e) =>
                 setPortfolio((prev) => ({
@@ -322,7 +322,7 @@ export default function Dashboard() {
                 }))
               }
             />
-            <div className="flex flex-wrap gap-6">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6">
               <button
                 onClick={saveData}
                 disabled={saving}
@@ -366,16 +366,16 @@ export default function Dashboard() {
       `}</style>
 
       <div
-        className="min-h-screen flex items-center justify-center p-6 text-white font-[Poppins]"
+        className="min-h-screen flex items-center justify-center p-4 sm:p-6 text-white font-[Poppins]"
         style={{
           background: "linear-gradient(135deg, #0f172a, #1e293b, #0f172a, #1e293b)",
           backgroundSize: "400% 400%",
           animation: "gradientShift 15s ease infinite"
         }}
       >
-        <div className="w-full max-w-4xl bg-[#0f172a] p-10 rounded-3xl border border-cyan-400 shadow-[0_0_40px_#00e6ff] animate-float">
-          <div className="flex justify-between items-center mb-10">
-            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+        <div className="w-full max-w-md sm:max-w-2xl md:max-w-3xl lg:max-w-4xl bg-[#0f172a] p-6 sm:p-8 md:p-10 rounded-3xl border border-cyan-400 shadow-[0_0_40px_#00e6ff] animate-float">
+          <div className="flex flex-col sm:flex-row justify-between items-center mb-10 gap-4 sm:gap-0">
+            <h1 className="text-2xl sm:text-4xl font-extrabold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent truncate">
               Welcome, {portfolio.name || user?.email}
             </h1>
             <button
@@ -391,7 +391,7 @@ export default function Dashboard() {
             {step > 1 && (
               <button
                 onClick={() => setStep((prev) => prev - 1)}
-                className="bg-gray-600 px-8 py-3 rounded font-semibold hover:bg-gray-500 transition"
+                className="bg-gray-600 px-6 sm:px-8 py-3 rounded font-semibold hover:bg-gray-500 transition"
               >
                 ⬅ Back
               </button>
@@ -399,7 +399,7 @@ export default function Dashboard() {
             {step < 4 && (
               <button
                 onClick={() => setStep((prev) => prev + 1)}
-                className="bg-cyan-400 px-8 py-3 rounded font-semibold text-black hover:bg-cyan-500 transition ml-auto"
+                className="bg-cyan-400 px-6 sm:px-8 py-3 rounded font-semibold text-black hover:bg-cyan-500 transition ml-auto"
               >
                 Next ➡
               </button>
