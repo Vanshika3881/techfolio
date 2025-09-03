@@ -44,40 +44,54 @@ export default function Signup() {
     <>
       <style jsx global>{`
         @keyframes gradientShift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
         }
         @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-15px); }
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-15px);
+          }
         }
-        body, html, #__next {
+        body,
+        html,
+        #__next {
           height: 100%;
           margin: 0;
           font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont,
-            'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+            'Helvetica Neue', sans-serif;
         }
       `}</style>
 
       <div
-        className="min-h-screen flex items-center justify-center"
+        className="min-h-screen flex items-center justify-center px-4"
         style={{
           background:
             'linear-gradient(135deg, #0f172a, #1e293b, #0f172a, #1e293b)',
           backgroundSize: '400% 400%',
           animation: 'gradientShift 15s ease infinite',
-          padding: '1.5rem',
         }}
       >
         <form
           onSubmit={signupUser}
-          className="bg-[#0f172a] bg-opacity-80 p-20 rounded-4xl shadow-[0_0_60px_#00e6ff] border border-[#00e6ff] max-w-4xl w-full text-white space-y-10 animate-float"
+          className="bg-[#0f172a] bg-opacity-80 p-6 sm:p-10 md:p-16 lg:p-20 rounded-2xl shadow-[0_0_40px_#00e6ff] border border-[#00e6ff] w-full max-w-md sm:max-w-xl md:max-w-3xl text-white space-y-6 sm:space-y-8 md:space-y-10 animate-float"
         >
-          <h1 className="text-6xl font-extrabold text-center bg-gradient-to-r from-blue-400 via-purple-600 to-pink-500 bg-clip-text text-transparent">
-            Create Your TechFolio 
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-center bg-gradient-to-r from-blue-400 via-purple-600 to-pink-500 bg-clip-text text-transparent">
+            Create Your TechFolio
           </h1>
-          <p className="text-center text-gray-300 text-lg">
+
+          <p className="text-center text-gray-300 text-sm sm:text-base md:text-lg">
             Already have an account?{' '}
             <span
               className="text-blue-400 hover:underline cursor-pointer"
@@ -88,56 +102,57 @@ export default function Signup() {
           </p>
 
           {error && (
-            <p className="text-red-500 text-center bg-red-900/30 p-3 rounded text-lg font-semibold">
+            <p className="text-red-500 text-center bg-red-900/30 p-3 rounded text-sm sm:text-base md:text-lg font-semibold">
               {error}
             </p>
           )}
 
+          {/* Name */}
           <div className="relative">
-            <FaUser className="absolute top-4 left-4 text-gray-400 text-2xl" />
+            <FaUser className="absolute top-4 left-4 text-gray-400 text-lg sm:text-xl md:text-2xl" />
             <input
               type="text"
               placeholder="Full Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className={`w-full p-6 pl-16 rounded-xl border border-gray-600 bg-[#1e293b] text-white placeholder-gray-400 text-2xl
-                         focus:ring-4 focus:ring-green-500 outline-none transition`}
+              className="w-full p-4 sm:p-5 md:p-6 pl-12 sm:pl-14 md:pl-16 rounded-xl border border-gray-600 bg-[#1e293b] text-white placeholder-gray-400 text-base sm:text-lg md:text-xl lg:text-2xl focus:ring-4 focus:ring-green-500 outline-none transition"
             />
           </div>
 
+          {/* Email */}
           <div className="relative">
-            <FaEnvelope className="absolute top-4 left-4 text-gray-400 text-2xl" />
+            <FaEnvelope className="absolute top-4 left-4 text-gray-400 text-lg sm:text-xl md:text-2xl" />
             <input
               type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={`w-full p-6 pl-16 rounded-xl border border-gray-600 bg-[#1e293b] text-white placeholder-gray-400 text-2xl
-                         focus:ring-4 focus:ring-green-500 outline-none transition`}
+              className="w-full p-4 sm:p-5 md:p-6 pl-12 sm:pl-14 md:pl-16 rounded-xl border border-gray-600 bg-[#1e293b] text-white placeholder-gray-400 text-base sm:text-lg md:text-xl lg:text-2xl focus:ring-4 focus:ring-green-500 outline-none transition"
             />
           </div>
 
+          {/* Password */}
           <div className="relative">
-            <FaLock className="absolute top-4 left-4 text-gray-400 text-2xl" />
+            <FaLock className="absolute top-4 left-4 text-gray-400 text-lg sm:text-xl md:text-2xl" />
             <input
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className={`w-full p-6 pl-16 rounded-xl border border-gray-600 bg-[#1e293b] text-white placeholder-gray-400 text-2xl
-                         focus:ring-4 focus:ring-green-500 outline-none transition`}
+              className="w-full p-4 sm:p-5 md:p-6 pl-12 sm:pl-14 md:pl-16 rounded-xl border border-gray-600 bg-[#1e293b] text-white placeholder-gray-400 text-base sm:text-lg md:text-xl lg:text-2xl focus:ring-4 focus:ring-green-500 outline-none transition"
             />
             <div
-              className="text-right mt-2 text-sm text-green-400 hover:underline cursor-pointer select-none"
+              className="text-right mt-2 text-xs sm:text-sm md:text-base text-green-400 hover:underline cursor-pointer select-none"
               onClick={() => router.push('/forgot-password')}
             >
               Forgot Password?
             </div>
           </div>
 
+          {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-emerald-500 to-emerald-700 hover:from-emerald-600 hover:to-emerald-800 text-white py-5 rounded-xl text-2xl font-bold shadow-lg transition-transform hover:scale-105 active:scale-95"
+            className="w-full bg-gradient-to-r from-emerald-500 to-emerald-700 hover:from-emerald-600 hover:to-emerald-800 text-white py-3 sm:py-4 md:py-5 rounded-xl text-lg sm:text-xl md:text-2xl font-bold shadow-lg transition-transform hover:scale-105 active:scale-95"
           >
             Sign Up
           </button>

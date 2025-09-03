@@ -153,12 +153,14 @@ export default function PortfolioPreview() {
           width={300}
           height={300}
           priority={false}
+          className="profile-pic"
         />
         <div className="image-glow"></div>
       </div>
     )}
   </div>
 </section>
+
 
 
       {/* ABOUT + SKILLS */}
@@ -417,18 +419,18 @@ export default function PortfolioPreview() {
 }
 
 .intro-text {
-  font-size: 3rem;
+  font-size: 2.2rem; /* reduced from 3rem */
   font-weight: 600;
   color: #3b82f6; /* blue */
   margin-bottom: 0.5rem;
-  text-shadow: none; /* no glow */
+  text-shadow: none;
 }
 
 h1.main-name {
-  font-size: 6rem;
+  font-size: 4rem; /* reduced from 6rem */
   font-weight: 800;
   color: #ec4899; /* pink */
-  text-shadow: none; /* no glow */
+  text-shadow: none;
   margin-bottom: 0.4rem;
 }
 
@@ -449,16 +451,16 @@ h1.main-name::after {
 }
 
 .animated-title {
-  font-size: 3.5rem;
+  font-size: 2.5rem; /* reduced from 3.5rem */
   font-weight: 600;
   color: #3b82f6;
-  text-shadow: none; /* no glow */
+  text-shadow: none;
   margin-bottom: 1.5rem;
   letter-spacing: 1.5px;
 }
 
 .tagline {
-  font-size: 1.7rem;
+  font-size: 1.3rem; /* slightly smaller */
   color: #94a3b8;
   margin-bottom: 2.5rem;
   line-height: 1.6;
@@ -478,7 +480,7 @@ h1.main-name::after {
   border-radius: 30px;
   color: #0b1220;
   font-weight: 700;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: box-shadow 0.4s ease, transform 0.3s ease;
   box-shadow: 0 0 8px #3b82f6, 0 0 20px #ec4899;
@@ -490,83 +492,53 @@ h1.main-name::after {
   transform: scale(1.05);
 }
 
-/* IMAGE */
+/* IMAGE CONTAINER */
+/* PROFILE PIC (Square + Glowing Border) */
 .image-container {
   position: relative;
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: floatUpDown 5s ease-in-out infinite;
+  display: inline-block;
+  border-radius: 12px; /* 0px if you want a perfect square */
+  padding: 6px; /* space for glow */
+  background: linear-gradient(45deg, #3b82f6, #ec4899, #3b82f6);
+  animation: glowBorder 4s infinite linear;
+  background-size: 300% 300%;
+  border-radius: 12px;
 }
 
-@keyframes floatUpDown {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
-}
-
-.image-container img {
-  width: 580px;
-  height: 580px;
-  border-radius: 50%;
-  border: 6px solid #3b82f6;
-  box-shadow: 0 0 25px #3b82f6, 0 0 50px #ec4899;
+.profile-pic {
+  width: 300px;
+  height: 300px;
+  border-radius: 12px; /* same as container */
   object-fit: cover;
+  display: block;
   position: relative;
   z-index: 2;
-  transition: box-shadow 0.3s ease;
 }
 
-.image-container img:hover {
-  box-shadow: 0 0 35px #3b82f6, 0 0 70px #ec4899;
-}
-
-.image-glow {
-  position: absolute;
-  width: 580px;
-  height: 580px;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.4) 40%, transparent 70%);
-  filter: blur(25px);
-  z-index: 1;
-  border-radius: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  opacity: 0.6;
-}
-
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  .home-content {
-    flex-direction: column-reverse;
-    text-align: center;
-    gap: 2rem;
+/* Animate the glowing gradient border */
+@keyframes glowBorder {
+  0% {
+    background-position: 0% 50%;
+    box-shadow: 0 0 15px #3b82f6, 0 0 25px #ec4899;
   }
-  .text {
-    text-align: center;
+  50% {
+    background-position: 100% 50%;
+    box-shadow: 0 0 25px #ec4899, 0 0 35px #3b82f6;
   }
-  .button-wrapper {
-    justify-content: center;
+  100% {
+    background-position: 0% 50%;
+    box-shadow: 0 0 15px #3b82f6, 0 0 25px #ec4899;
   }
 }
 
+/* Responsive */
 @media (max-width: 600px) {
-  h1.main-name {
-    font-size: 3rem;
-  }
-  .animated-title {
-    font-size: 1.5rem;
-  }
-  .image-container img {
-    width: 250px;
-    height: 250px;
-  }
-  .image-glow {
-    width: 270px;
-    height: 270px;
+  .profile-pic {
+    width: 220px;
+    height: 220px;
   }
 }
+
 
 
  /* ABOUT & SKILLS - FULL SCREEN STYLE */

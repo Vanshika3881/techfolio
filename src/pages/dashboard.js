@@ -166,7 +166,7 @@ export default function Dashboard() {
         return (
           <>
             <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent mb-6">
-               Profile Info
+              Profile Info
             </h2>
             {portfolio.profilePicture && (
               <img
@@ -351,40 +351,62 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a1128] flex items-center justify-center p-6 text-white font-[Poppins]">
-      <div className="w-full max-w-4xl bg-[#0f172a] p-10 rounded-3xl border border-cyan-400 shadow-[0_0_25px_rgba(0,255,255,0.7)]">
-        <div className="flex justify-between items-center mb-10">
-          <h1 className="text-4xl font-extrabold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-            Welcome, {portfolio.name || user?.email}
-          </h1>
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 px-6 py-3 rounded font-semibold hover:bg-red-700 transition"
-          >
-            Logout
-          </button>
-        </div>
-        <StepIndicator />
-        {renderStep()}
-        <div className="flex justify-between mt-10">
-          {step > 1 && (
+    <>
+      {/* 🔹 Animations for background + float */}
+      <style jsx global>{`
+        @keyframes gradientShift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
+      `}</style>
+
+      <div
+        className="min-h-screen flex items-center justify-center p-6 text-white font-[Poppins]"
+        style={{
+          background: "linear-gradient(135deg, #0f172a, #1e293b, #0f172a, #1e293b)",
+          backgroundSize: "400% 400%",
+          animation: "gradientShift 15s ease infinite"
+        }}
+      >
+        <div className="w-full max-w-4xl bg-[#0f172a] p-10 rounded-3xl border border-cyan-400 shadow-[0_0_40px_#00e6ff] animate-float">
+          <div className="flex justify-between items-center mb-10">
+            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+              Welcome, {portfolio.name || user?.email}
+            </h1>
             <button
-              onClick={() => setStep((prev) => prev - 1)}
-              className="bg-gray-600 px-8 py-3 rounded font-semibold hover:bg-gray-500 transition"
+              onClick={handleLogout}
+              className="bg-red-600 px-6 py-3 rounded font-semibold hover:bg-red-700 transition"
             >
-              ⬅ Back
+              Logout
             </button>
-          )}
-          {step < 4 && (
-            <button
-              onClick={() => setStep((prev) => prev + 1)}
-              className="bg-cyan-400 px-8 py-3 rounded font-semibold text-black hover:bg-cyan-500 transition ml-auto"
-            >
-              Next ➡
-            </button>
-          )}
+          </div>
+          <StepIndicator />
+          {renderStep()}
+          <div className="flex justify-between mt-10">
+            {step > 1 && (
+              <button
+                onClick={() => setStep((prev) => prev - 1)}
+                className="bg-gray-600 px-8 py-3 rounded font-semibold hover:bg-gray-500 transition"
+              >
+                ⬅ Back
+              </button>
+            )}
+            {step < 4 && (
+              <button
+                onClick={() => setStep((prev) => prev + 1)}
+                className="bg-cyan-400 px-8 py-3 rounded font-semibold text-black hover:bg-cyan-500 transition ml-auto"
+              >
+                Next ➡
+              </button>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
