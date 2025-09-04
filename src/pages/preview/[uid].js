@@ -277,13 +277,13 @@ export default function PortfolioPreview() {
     )}
 
     {/* Email */}
-    {portfolio?.email && (
+    {(portfolio?.email || portfolio?.ownerEmail) && (
       <a
-        href={`mailto:${portfolio.email}`}
+        href={`mailto:${portfolio.email || portfolio.ownerEmail}`}
         className="flex items-center gap-4 p-6 rounded-2xl bg-[#0f172a] border border-[#0ef] shadow-lg hover:shadow-[0_0_20px_#0ef] hover:scale-105 transition-transform"
       >
         <FaEnvelope className="text-3xl text-[#0ef]" />
-        <span className="text-lg font-medium">{portfolio.email}</span>
+        <span className="text-lg font-medium">{portfolio.email || portfolio.ownerEmail}</span>
       </a>
     )}
   </div>
