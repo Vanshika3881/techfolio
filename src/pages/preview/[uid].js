@@ -57,9 +57,9 @@ export default function PortfolioPreview() {
   if (loading) return <p>Loading...</p>;
   if (!portfolio) return <p>Portfolio not found.</p>;
 
-  // ✅ Email fallback
-  const userEmail =
-    auth.currentUser?.email || portfolio.email || "you@example.com";
+  // Use portfolio owner email as fixed contact
+ const contactEmail = currentUser?.email || "you@example.com";
+
 
   // ✅ Share function
   const handleShare = async () => {
@@ -244,49 +244,48 @@ export default function PortfolioPreview() {
 
 
       {/* CONTACT */}
-<section className="section contact-section" id="contact">
-  <h2 className="contact-heading">Contact</h2>
+{/* CONTACT SECTION */}
+      <section className="section contact-section" id="contact">
+        <h2 className="contact-heading">Contact</h2>
 
-  {/* Contact Cards */}
-  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-6">
-    
-    {/* LinkedIn */}
-    {portfolio?.socials?.linkedin && (
-      <a
-        href={portfolio.socials.linkedin}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-4 p-6 rounded-2xl bg-[#0f172a] border border-[#0A66C2] shadow-lg hover:shadow-[0_0_20px_#0A66C2] hover:scale-105 transition-transform"
-      >
-        <FaLinkedin className="text-3xl text-[#0A66C2]" />
-        <span className="text-lg font-medium">LinkedIn</span>
-      </a>
-    )}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-6">
+          {/* LinkedIn */}
+          {portfolio?.socials?.linkedin && (
+            <a
+              href={portfolio.socials.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-4 p-6 rounded-2xl bg-[#0f172a] border border-[#0A66C2] shadow-lg hover:shadow-[0_0_20px_#0A66C2] hover:scale-105 transition-transform"
+            >
+              <FaLinkedin className="text-3xl text-[#0A66C2]" />
+              <span className="text-lg font-medium">LinkedIn</span>
+            </a>
+          )}
 
-    {/* GitHub */}
-    {portfolio?.socials?.github && (
-      <a
-        href={portfolio.socials.github}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-4 p-6 rounded-2xl bg-[#0f172a] border border-[#333] shadow-lg hover:shadow-[0_0_20px_#333] hover:scale-105 transition-transform"
-      >
-        <FaGithub className="text-3xl text-[#fff]" />
-        <span className="text-lg font-medium">GitHub</span>
-      </a>
-    )}
+          {/* GitHub */}
+          {portfolio?.socials?.github && (
+            <a
+              href={portfolio.socials.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-4 p-6 rounded-2xl bg-[#0f172a] border border-[#333] shadow-lg hover:shadow-[0_0_20px_#333] hover:scale-105 transition-transform"
+            >
+              <FaGithub className="text-3xl text-[#fff]" />
+              <span className="text-lg font-medium">GitHub</span>
+            </a>
+          )}
 
-    {/* Email */}
-    {(portfolio?.email || portfolio?.ownerEmail) && (
-      <a
-        href={`mailto:${portfolio.email || portfolio.ownerEmail}`}
-        className="flex items-center gap-4 p-6 rounded-2xl bg-[#0f172a] border border-[#0ef] shadow-lg hover:shadow-[0_0_20px_#0ef] hover:scale-105 transition-transform"
-      >
-        <FaEnvelope className="text-3xl text-[#0ef]" />
-        <span className="text-lg font-medium">{portfolio.email || portfolio.ownerEmail}</span>
-      </a>
-    )}
-  </div>
+          {/* Email */}
+          {contactEmail && (
+            <a
+              href={`mailto:${contactEmail}`}
+              className="flex items-center gap-4 p-6 rounded-2xl bg-[#0f172a] border border-[#0ef] shadow-lg hover:shadow-[0_0_20px_#0ef] hover:scale-105 transition-transform"
+            >
+              <FaEnvelope className="text-3xl text-[#0ef]" />
+              <span className="text-lg font-medium">{contactEmail}</span>
+            </a>
+          )}
+        </div>
 
       {/* Footer */}
 <footer className="footer mt-10 text-center text-gray-400">
