@@ -293,58 +293,78 @@ export default function Dashboard() {
           </>
         );
       case 4:
-        return (
-          <>
-            <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent mb-6">
-              🔗 Social Links & Publish
-            </h2>
-            <input
-              type="url"
-              placeholder="LinkedIn"
-              className="w-full p-3 sm:p-4 mb-6 border border-gray-700 rounded bg-[#0f172a] text-white text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
-              value={portfolio.socials.linkedin}
-              onChange={(e) =>
-                setPortfolio((prev) => ({
-                  ...prev,
-                  socials: { ...prev.socials, linkedin: e.target.value },
-                }))
-              }
-            />
-            <input
-              type="url"
-              placeholder="GitHub"
-              className="w-full p-3 sm:p-4 mb-6 border border-gray-700 rounded bg-[#0f172a] text-white text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
-              value={portfolio.socials.github}
-              onChange={(e) =>
-                setPortfolio((prev) => ({
-                  ...prev,
-                  socials: { ...prev.socials, github: e.target.value },
-                }))
-              }
-            />
-            <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6">
-              <button
-                onClick={saveData}
-                disabled={saving}
-                className="bg-blue-600 px-8 py-3 rounded font-semibold text-white hover:bg-blue-700 transition disabled:opacity-50"
-              >
-                {saving ? 'Saving...' : '💾 Save'}
-              </button>
-              <button
-                onClick={handlePublish}
-                className="bg-green-500 px-8 py-3 rounded font-semibold text-white hover:bg-green-600 transition"
-              >
-                🌐 Publish Portfolio
-              </button>
-              <button
-                onClick={() => window.open(`/preview/${user?.uid}`, '_blank')}
-                className="bg-cyan-400 px-8 py-3 rounded font-semibold text-black hover:bg-cyan-500 transition"
-              >
-                👁 Preview Portfolio
-              </button>
-            </div>
-          </>
-        );
+  return (
+    <>
+      <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent mb-6">
+        🔗 Social Links & Publish
+      </h2>
+
+      {/* ✉ Email */}
+      <input
+        type="email"
+        placeholder="Email"
+        className="w-full p-3 sm:p-4 mb-6 border border-gray-700 rounded bg-[#0f172a] text-white text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
+        value={portfolio.email || user?.email || ""}
+        onChange={(e) =>
+          setPortfolio((prev) => ({
+            ...prev,
+            email: e.target.value,
+          }))
+        }
+      />
+
+      {/* 🌐 LinkedIn */}
+      <input
+        type="url"
+        placeholder="LinkedIn"
+        className="w-full p-3 sm:p-4 mb-6 border border-gray-700 rounded bg-[#0f172a] text-white text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
+        value={portfolio.socials.linkedin}
+        onChange={(e) =>
+          setPortfolio((prev) => ({
+            ...prev,
+            socials: { ...prev.socials, linkedin: e.target.value },
+          }))
+        }
+      />
+
+      {/* 💻 GitHub */}
+      <input
+        type="url"
+        placeholder="GitHub"
+        className="w-full p-3 sm:p-4 mb-6 border border-gray-700 rounded bg-[#0f172a] text-white text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 transition"
+        value={portfolio.socials.github}
+        onChange={(e) =>
+          setPortfolio((prev) => ({
+            ...prev,
+            socials: { ...prev.socials, github: e.target.value },
+          }))
+        }
+      />
+
+      <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6">
+        <button
+          onClick={saveData}
+          disabled={saving}
+          className="bg-blue-600 px-8 py-3 rounded font-semibold text-white hover:bg-blue-700 transition disabled:opacity-50"
+        >
+          {saving ? "Saving..." : "💾 Save"}
+        </button>
+        <button
+          onClick={handlePublish}
+          className="bg-green-500 px-8 py-3 rounded font-semibold text-white hover:bg-green-600 transition"
+        >
+          🌐 Publish Portfolio
+        </button>
+        <button
+          onClick={() => window.open(`/preview/${user?.uid}`, "_blank")}
+          className="bg-cyan-400 px-8 py-3 rounded font-semibold text-black hover:bg-cyan-500 transition"
+        >
+          👁 Preview Portfolio
+        </button>
+      </div>
+    </>
+  );
+
       default:
         return null;
     }

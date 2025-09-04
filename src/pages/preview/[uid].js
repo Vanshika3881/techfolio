@@ -57,9 +57,8 @@ export default function PortfolioPreview() {
   if (loading) return <p>Loading...</p>;
   if (!portfolio) return <p>Portfolio not found.</p>;
 
-  // Use portfolio owner email as fixed contact
- const contactEmail = currentUser?.email || "you@example.com";
-
+  // ✅ Use portfolio email → fallback to Firebase Auth user email
+  const contactEmail = portfolio?.email || currentUser?.email || "";
 
   // ✅ Share function
   const handleShare = async () => {
@@ -245,11 +244,11 @@ export default function PortfolioPreview() {
 
       {/* CONTACT */}
 {/* CONTACT SECTION */}
+       {/* CONTACT */}
       <section className="section contact-section" id="contact">
         <h2 className="contact-heading">Contact</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-6">
-          {/* LinkedIn */}
           {portfolio?.socials?.linkedin && (
             <a
               href={portfolio.socials.linkedin}
@@ -262,7 +261,6 @@ export default function PortfolioPreview() {
             </a>
           )}
 
-          {/* GitHub */}
           {portfolio?.socials?.github && (
             <a
               href={portfolio.socials.github}
@@ -275,16 +273,16 @@ export default function PortfolioPreview() {
             </a>
           )}
 
-          {/* Email */}
           {contactEmail && (
-            <a
-              href={`mailto:${contactEmail}`}
-              className="flex items-center gap-4 p-6 rounded-2xl bg-[#0f172a] border border-[#0ef] shadow-lg hover:shadow-[0_0_20px_#0ef] hover:scale-105 transition-transform"
-            >
-              <FaEnvelope className="text-3xl text-[#0ef]" />
-              <span className="text-lg font-medium">{contactEmail}</span>
-            </a>
-          )}
+  <a
+    href={`mailto:${contactEmail}`}
+    className="flex items-center gap-4 p-6 rounded-2xl bg-[#0f172a] border border-[#0ef] shadow-lg hover:shadow-[0_0_20px_#0ef] hover:scale-105 transition-transform"
+  >
+    <FaEnvelope className="text-3xl text-[#0ef]" />
+    <span className="text-lg font-medium">{contactEmail}</span>
+  </a>
+)}
+
         </div>
 
       {/* Footer */}
