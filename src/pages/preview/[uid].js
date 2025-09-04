@@ -5,6 +5,9 @@ import { db } from "@/lib/firebase";
 import { FaLinkedin, FaGithub, FaEnvelope, FaShareAlt,FaEdit } from "react-icons/fa";
 import { getAuth } from "firebase/auth";
 import Image from "next/image";
+import {  onAuthStateChanged } from "firebase/auth";
+
+
 
 export default function PortfolioPreview() {
   const router = useRouter();
@@ -13,12 +16,19 @@ export default function PortfolioPreview() {
   const [portfolio, setPortfolio] = useState(null);
   const [loading, setLoading] = useState(true);
   const [titleIndex, setTitleIndex] = useState(0);
-  const [shareLink, setShareLink] = useState("");
-
+  const [currentUser, setCurrentUser] = useState(null); // ✅ logged-in user
 
   const auth = getAuth();
 
-  // Fetch portfolio data from Firestore
+  // ✅ Track logged-in Firebase user
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+    return () => unsubscribe();
+  }, [auth]);
+
+  // ✅ Fetch portfolio data from Firestore
   useEffect(() => {
     const fetchPortfolio = async () => {
       if (!uid) return;
@@ -34,10 +44,7 @@ export default function PortfolioPreview() {
     fetchPortfolio();
   }, [uid]);
 
-  
-
-
-  // Cycle through multiple titles with interval
+  // ✅ Cycle through multiple titles with interval
   useEffect(() => {
     if (portfolio?.titles?.length > 1) {
       const interval = setInterval(() => {
@@ -50,29 +57,27 @@ export default function PortfolioPreview() {
   if (loading) return <p>Loading...</p>;
   if (!portfolio) return <p>Portfolio not found.</p>;
 
-   const userEmail =
+  // ✅ Email fallback
+  const userEmail =
     auth.currentUser?.email || portfolio.email || "you@example.com";
 
-    // Share function
+  // ✅ Share function
   const handleShare = async () => {
     const shareUrl = `${window.location.origin}/preview/${uid}`;
     if (navigator.share) {
-  try {
-    await navigator.share({
-  title: `${portfolio.name}&apos;s Portfolio`, // ✅ safe for Next.js build
-  url: shareUrl,
-});
-
-  } catch (err) {
-    console.error("Error sharing:", err);
-  }
-} else {
-  navigator.clipboard.writeText(shareUrl);
-  alert("Portfolio link copied to clipboard!");
-}
-
+      try {
+        await navigator.share({
+          title: `${portfolio.name}'s Portfolio`,
+          url: shareUrl,
+        });
+      } catch (err) {
+        console.error("Error sharing:", err);
+      }
+    } else {
+      navigator.clipboard.writeText(shareUrl);
+      alert("Portfolio link copied to clipboard!");
+    }
   };
-
 
   return (
    <div className="scroll-container">
@@ -102,13 +107,18 @@ export default function PortfolioPreview() {
           <FaShareAlt className="text-xl" /> Share
         </button>
 
-        {/* Edit Portfolio button */}
-        <button
-          className="flex items-center gap-2 px-5 py-3 rounded-lg bg-[#0ef] text-black font-semibold text-lg shadow-md hover:scale-105 transition-transform"
-          onClick={() => router.push(`/dashboard?uid=${uid}`)}
-        >
-          <FaEdit className="text-xl" /> Edit Portfolio
-        </button>
+       {/* Edit Portfolio button - only visible to owner */}
+{/* Edit Portfolio button - only visible to portfolio owner */}
+{currentUser && currentUser.uid === uid && (
+  <button
+    className="flex items-center gap-2 px-5 py-3 rounded-lg bg-[#0ef] text-black font-semibold text-lg shadow-md hover:scale-105 transition-transform"
+    onClick={() => router.push(`/dashboard?uid=${uid}`)}
+  >
+    <FaEdit className="text-xl" /> Edit Portfolio
+  </button>
+)}
+
+
       </div>
     </nav>
 
@@ -277,10 +287,11 @@ export default function PortfolioPreview() {
       </div>
 
       {/* Footer */}
-      <footer className="footer mt-10 text-center text-gray-400">
-        &copy; {new Date().getFullYear()} {portfolio?.name || "Your Name"} | All rights reserved.
-      </footer>
-    </section>
+<footer className="footer mt-10 text-center text-gray-400">
+  &copy; {new Date().getFullYear()} TechFolio | All rights reserved.
+</footer>
+</section>
+
 
 
       <style jsx>{`
@@ -304,81 +315,92 @@ export default function PortfolioPreview() {
           color: #f8fafc;
         }
 
-        .navbar {
-          position: sticky;
-          top: 0;
-          background: rgba(30, 41, 59, 0.9);
-          display: flex;
-          justify-content: space-between;
-          padding: 1rem 2rem;
-          z-index: 1000;
-          backdrop-filter: saturate(180%) blur(10px);
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
+        /* NAVBAR */
+.navbar {
+  position: fixed;         /* stays at top */
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(30, 41, 59, 0.9);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  z-index: 1000;
+  backdrop-filter: saturate(180%) blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
 
-        .logo {
-          font-size: 2.2rem;
-          font-weight: 700;
-          color: #00e6ff;
-        }
+/* prevent content hiding behind navbar */
+body {
+  padding-top: 70px; /* adjust to navbar height */
+}
 
-        .nav-links {
-          display: flex;
-          gap: 2rem;
-          list-style: none;
-        }
+/* Logo */
+.logo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #00e6ff;
+}
 
-        .nav-links li a {
-          color: #fff;
-          font-weight: 700;
-          font-size: 1.3rem;
-          text-decoration: none;
-          position: relative;
-          transition: color 0.3s ease;
-        }
+/* Nav links */
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
 
-        .nav-links li a::after {
-          content: '';
-          position: absolute;
-          width: 0%;
-          height: 2px;
-          bottom: -4px;
-          left: 0;
-          background: #0ff;
-          transition: width 0.3s ease;
-          border-radius: 2px;
-        }
+.nav-links li a {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
 
-        .nav-links li a:hover {
-          color: #0ff;
-        }
+.nav-links li a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background: #0ff;
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
 
-        .nav-links li a:hover::after {
-          width: 100%;
-        }
+.nav-links li a:hover {
+  color: #0ff;
+}
 
-        .section {
-          height: 100vh;
-          scroll-snap-align: start;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          padding: 2rem;
-        }
+.nav-links li a:hover::after {
+  width: 100%;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* hide links by default */
+  }
+
+  .navbar {
+    padding: 1rem;
+  }
+}
 
         /* HOME SECTION */
 /* HOME SECTION */
 .home {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #0b1220, #1e293b); /* match about section */
+  background: linear-gradient(135deg, #0b1220, #1e293b);
   animation: gradientShift 15s ease infinite;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 4rem 2rem;
+  padding: 3rem 1.5rem; /* reduced padding for mobile */
   min-height: 100vh;
 }
 
@@ -392,15 +414,15 @@ export default function PortfolioPreview() {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 4rem;
+  gap: 3rem;
   flex-wrap: wrap;
-  max-width: 1200px;
+  max-width: 1100px;
   width: 100%;
 }
 
 /* TEXT */
 .text {
-  max-width: 700px;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -419,26 +441,24 @@ export default function PortfolioPreview() {
 }
 
 .intro-text {
-  font-size: 2.2rem; /* reduced from 3rem */
+  font-size: 2rem;
   font-weight: 600;
-  color: #3b82f6; /* blue */
+  color: #3b82f6;
   margin-bottom: 0.5rem;
-  text-shadow: none;
 }
 
 h1.main-name {
-  font-size: 4rem; /* reduced from 6rem */
+  font-size: 3.2rem;
   font-weight: 800;
-  color: #ec4899; /* pink */
-  text-shadow: none;
+  color: #ec4899;
   margin-bottom: 0.4rem;
 }
 
 h1.main-name::after {
   content: '';
   display: block;
-  width: 80px;
-  height: 5px;
+  width: 70px;
+  height: 4px;
   background: linear-gradient(90deg, #3b82f6, #ec4899);
   border-radius: 3px;
   margin-top: 10px;
@@ -446,26 +466,25 @@ h1.main-name::after {
 }
 
 @keyframes underlinePulse {
-  0%, 100% { opacity: 1; width: 80px; }
+  0%, 100% { opacity: 1; width: 70px; }
   50% { opacity: 0.6; width: 50px; }
 }
 
 .animated-title {
-  font-size: 2.5rem; /* reduced from 3.5rem */
+  font-size: 2rem;
   font-weight: 600;
   color: #3b82f6;
-  text-shadow: none;
-  margin-bottom: 1.5rem;
-  letter-spacing: 1.5px;
+  margin-bottom: 1.2rem;
+  letter-spacing: 1.2px;
 }
 
 .tagline {
-  font-size: 1.3rem; /* slightly smaller */
+  font-size: 1.1rem;
   color: #94a3b8;
-  margin-bottom: 2.5rem;
-  line-height: 1.6;
+  margin-bottom: 2rem;
+  line-height: 1.5;
   font-style: italic;
-  text-shadow: 0 0 3px #3b82f6;
+  text-shadow: 0 0 2px #3b82f6;
 }
 
 .button-wrapper {
@@ -474,71 +493,88 @@ h1.main-name::after {
 }
 
 .cta-button {
-  padding: 0.85rem 2.5rem;
+  padding: 0.75rem 2rem;
   background: linear-gradient(90deg, #3b82f6, #ec4899);
   border: none;
   border-radius: 30px;
   color: #0b1220;
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: box-shadow 0.4s ease, transform 0.3s ease;
-  box-shadow: 0 0 8px #3b82f6, 0 0 20px #ec4899;
-  letter-spacing: 1.2px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 0 6px #3b82f6, 0 0 18px #ec4899;
+  letter-spacing: 1px;
 }
 
 .cta-button:hover {
-  box-shadow: 0 0 12px #3b82f6, 0 0 30px #ec4899;
+  box-shadow: 0 0 10px #3b82f6, 0 0 25px #ec4899;
   transform: scale(1.05);
 }
 
 /* IMAGE CONTAINER */
-/* PROFILE PIC (Square + Glowing Border) */
 .image-container {
   position: relative;
   display: inline-block;
-  border-radius: 12px; /* 0px if you want a perfect square */
-  padding: 6px; /* space for glow */
+  border-radius: 12px;
+  padding: 5px;
   background: linear-gradient(45deg, #3b82f6, #ec4899, #3b82f6);
   animation: glowBorder 4s infinite linear;
   background-size: 300% 300%;
-  border-radius: 12px;
 }
 
 .profile-pic {
-  width: 300px;
-  height: 300px;
-  border-radius: 12px; /* same as container */
+  width: 260px;
+  height: 260px;
+  border-radius: 12px;
   object-fit: cover;
   display: block;
   position: relative;
   z-index: 2;
 }
 
-/* Animate the glowing gradient border */
 @keyframes glowBorder {
   0% {
     background-position: 0% 50%;
-    box-shadow: 0 0 15px #3b82f6, 0 0 25px #ec4899;
+    box-shadow: 0 0 12px #3b82f6, 0 0 20px #ec4899;
   }
   50% {
     background-position: 100% 50%;
-    box-shadow: 0 0 25px #ec4899, 0 0 35px #3b82f6;
+    box-shadow: 0 0 20px #ec4899, 0 0 30px #3b82f6;
   }
   100% {
     background-position: 0% 50%;
-    box-shadow: 0 0 15px #3b82f6, 0 0 25px #ec4899;
+    box-shadow: 0 0 12px #3b82f6, 0 0 20px #ec4899;
   }
 }
 
 /* Responsive */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .home {
+    padding: 2rem 1rem;
+  }
+  .home-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+  .text {
+    text-align: center;
+    align-items: center;
+  }
+  h1.main-name {
+    font-size: 2.5rem;
+  }
+  .animated-title {
+    font-size: 1.6rem;
+  }
+  .tagline {
+    font-size: 1rem;
+  }
   .profile-pic {
-    width: 220px;
-    height: 220px;
+    width: 180px;
+    height: 180px;
   }
 }
-
 
 
  /* ABOUT & SKILLS - FULL SCREEN STYLE */
@@ -858,15 +894,17 @@ li {
 
 
 
-/* Contact section */
+/* CONTACT SECTION */
 .contact-section {
-  padding: 6rem 2rem 5rem;
-  background: linear-gradient(135deg, #0b1220, #1e293b); /* matches theme */
-  text-align: center;
+  min-height: 100vh;  /* full screen height */
   display: flex;
   flex-direction: column;
+  justify-content: center; /* center content vertically */
   align-items: center;
+  padding: 4rem 2rem;
 }
+
+
 
 /* Contact heading with glow */
 .contact-heading {
@@ -901,13 +939,13 @@ li {
   align-items: center;
 }
 
-/* Contact icons with card-like feel */
+/* Contact icons */
 .contact-icon {
   color: #cbd5e1;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
   text-decoration: none;
-  padding: 0.8rem 1.8rem;
+  padding: 0.8rem 1.6rem;
   border: 1px solid rgba(59, 130, 246, 0.25);
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.02);
@@ -922,9 +960,10 @@ li {
   box-shadow: 0 0 15px rgba(236, 72, 153, 0.5), 0 0 25px rgba(59, 130, 246, 0.5);
   border-color: rgba(236, 72, 153, 0.5);
 }
+
 .contact-icon i {
   margin-right: 0.6rem;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   vertical-align: middle;
 }
 
@@ -950,8 +989,11 @@ li {
   color: #ec4899;
 }
 
+/* ===================== */
+/* RESPONSIVE ADJUSTMENTS */
+/* ===================== */
 
-/* Responsive adjustments */
+/* Tablet & medium screens */
 @media (max-width: 900px) {
   .about-full-wrapper {
     flex-direction: column;
@@ -964,43 +1006,88 @@ li {
     flex: none;
   }
   .about-image {
-    width: 280px;
-    height: 280px;
+    width: 260px;
+    height: 260px;
   }
   .about-name {
-    font-size: 3rem;
+    font-size: 2.6rem;
   }
   .about-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
     margin-bottom: 1rem;
   }
   .about-bio h3 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
   .about-bio p {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
   .home-content {
     flex-direction: column;
+    gap: 2rem;
   }
   .image-container img {
-    width: 280px;
-    height: 280px;
+    width: 240px;
+    height: 240px;
   }
   h1.main-name {
-    font-size: 3rem;
+    font-size: 2.8rem;
   }
   .animated-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
+  }
+  .contact-heading {
+    font-size: 2.3rem;
   }
 }
 
+/* Mobile screens */
+@media (max-width: 600px) {
+  .contact-section {
+    padding: 4rem 1rem 3rem;
+  }
+  .contact-heading {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .contact-links {
+    gap: 0.8rem;
+  }
+  .contact-icon {
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+  }
+  .contact-icon i,
+  .contact-icon svg {
+    font-size: 1.1rem;
+    margin-right: 0.4rem;
+  }
+  .email-link {
+    font-size: 0.9rem;
+  }
+  .image-container img {
+    width: 200px;
+    height: 200px;
+  }
+  h1.main-name {
+    font-size: 2.4rem;
+  }
+  .animated-title {
+    font-size: 1.4rem;
+  }
+  .tagline {
+    font-size: 0.95rem;
+  }
+}
+
+/* Small tablets / large phones */
 @media (max-width: 768px) {
   .project-card {
     width: 100%;
     max-width: 90vw;
   }
 }
+
 
 
 
